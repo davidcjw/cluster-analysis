@@ -1,3 +1,13 @@
+"""
+The Cluster module generates descriptive statistics for clusters
+obtained from libraries such as sklearn.
+
+Usage:
+    km = KMeans()
+    km.fit(df)
+    cluster = Cluster(df, km.labels_)
+    cluster.stats()
+"""
 from dataclasses import dataclass, field
 from typing import List, Union
 import pandas as pd
@@ -17,7 +27,12 @@ class Cluster:
     def __post_init__(self):
         self._check_input()
 
-    def stats(self):
+    def stats(self, dist_metric: str = "cosine",
+              noise_cluster: bool = False,
+              silhouette: bool = False,
+              g3: bool = False,
+              wgap: bool = False,
+              sepindex: bool = False):
         pass
 
     def _check_input(self):
