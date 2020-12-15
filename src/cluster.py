@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Union
 import pandas as pd
+import numpy as np
 
 
 @dataclass
@@ -9,7 +10,7 @@ class Cluster:
     df: pd.DataFrame = field(
         metadata={"help": "DataFrame or numpy array of X values"}
     )
-    labels: pd.Series = field(
+    labels: Union[pd.Series, List[int], np.ndarray] = field(
         metadata={"help": "Cluster labels. Must have at least 2 classes"}
     )
 
