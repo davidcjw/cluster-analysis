@@ -6,11 +6,11 @@ import pandas as pd
 @dataclass
 class Cluster:
 
-    labels: List[int] = field(
-        metadata={"help": "Cluster labels. Must have at least 2 classes"}
-    )
     df: pd.DataFrame = field(
         metadata={"help": "DataFrame or numpy array of X values"}
+    )
+    labels: pd.Series = field(
+        metadata={"help": "Cluster labels. Must have at least 2 classes"}
     )
 
     def __post_init__(self):
@@ -32,18 +32,12 @@ class Cluster:
         if self.labels.nunique() < 2:
             raise ValueError("Labels need more than 1 cluster!")
 
-    @property
-    def df(self):
-        return self.df
-
-    @df.setter
-    def df(self, col, val):
-        print(f"Setting column {col} to value {val}...")
-        setattr(self, self.df, val)
-
 
 if __name__ == "__main__":
     from sklearn.cluster import KMeans
     df = pd.read_csv("data.csv").select_dtypes("int")
-    km = KMeans().fit("data.csv")
+    km = KMeans()
+    km.fit(df)
     cluster = Cluster(df, km.labels_)
+    assert cluster.df is not None and isinstance(cluster.df, pd.DataFrame)
+    assert cluster.labels is not None and isinstance(cluster.labels, pd.Series)
